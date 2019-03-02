@@ -1,0 +1,10 @@
+[{
+  "modid": "minesweeper",
+  "name": "Minesweeper",
+  "description": "Play Minesweeper in a inventory",
+  "version": "0.1",
+  "url": "",
+  "authorList": [ "DosMike" ],
+  "requiredMods": [ "spongeapi@7.0.0" ],
+  "dependencies": [ "spongeapi@7.0.0" ]
+}]
