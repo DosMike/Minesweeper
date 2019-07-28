@@ -8,7 +8,6 @@ import de.dosmike.sponge.megamenus.api.elements.MIcon;
 import de.dosmike.sponge.megamenus.api.listener.OnClickListener;
 import de.dosmike.sponge.megamenus.api.listener.OnRenderStateListener;
 import de.dosmike.sponge.megamenus.impl.BaseMenuImpl;
-import de.dosmike.sponge.megamenus.impl.GuiRenderer;
 import de.dosmike.sponge.megamenus.impl.util.MenuUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.effect.sound.SoundCategories;
@@ -18,7 +17,6 @@ import org.spongepowered.api.event.CauseStackManager;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.property.SlotPos;
-import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
@@ -133,7 +131,7 @@ public class Minefield {
                             }
 
                             //fetch builded MButton at slot position
-                            MButton button = (MButton) MenuUtil.getElementsAtPosition(menu, 1, SlotPos.of(animX, animY)).stream().findFirst().get();
+                            MButton button = (MButton) MenuUtil.getElementAt(menu, 1, SlotPos.of(animX, animY)).get();
 
                             values[animX][animY] |= 0x40; //open
                             //render open

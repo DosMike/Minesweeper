@@ -12,7 +12,7 @@ import org.spongepowered.api.text.Text;
 final public class CommandRegistra {
 
     public static void registerCommands() {
-        Sponge.getCommandManager().register(MegaMenus.getInstance(), CommandSpec.builder()
+        Sponge.getCommandManager().register(Minesweeper.getInstance(), CommandSpec.builder()
                 .permission("minesweeper.command")
                 .description(Text.of("Start a round of minesweeper"))
                 .arguments(
