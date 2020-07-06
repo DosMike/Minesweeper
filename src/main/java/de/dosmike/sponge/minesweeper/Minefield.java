@@ -106,7 +106,7 @@ public class Minefield {
         menu.add(game);
         menu.add(info);
         //create renderer
-        MenuRenderer render = (MenuRenderer)menu.createGuiRenderer( 6,false);
+        MenuRenderer render = menu.createGuiRenderer( 6,false);
         render.setRenderListener(new OnRenderStateListener() { //add render lestener
             int passedTimeMs=0;
             int animX=0, animY=0;
@@ -164,7 +164,7 @@ public class Minefield {
             @Override
             public boolean closed(MenuRenderer render, IMenu menu, Player viewer) {
                 //if the player closes a menu untrack them
-                MegaMenus.l("Render instance closed");
+//                MegaMenus.l("Render instance closed");
                 minefields.remove(viewer.getUniqueId());
                 return false;
             }
@@ -176,8 +176,7 @@ public class Minefield {
     }
 
     /** on click listener arguments: IElement, Viewer, Button, Shift held */
-    private static OnClickListener MF_FIELD_LISTENER = (e, v, b, s)->{
-        MButton button = ((MButton)e); //we only added this listener to MButtons so cast is safe
+    private static OnClickListener<MButton> MF_FIELD_LISTENER = (button, v, b, s)->{
         SlotPos pos = button.getPosition();
         Minefield field = minefields.get(v.getUniqueId()); //get the Minefield for player
         if (field == null || field.over) return; //don't react if game is over
@@ -217,21 +216,23 @@ public class Minefield {
                     field.game.setName(Text.of(TextColors.GOLD, "Winner Winner"));
                     field.game.setLore(Collections.singletonList(Text.of(TextColors.WHITE, "Chicken Dinner")));
 
-                    //tell the server how good player is with probably 4 mines
-                    Sponge.getServer().getBroadcastChannel().send(Text.of(
-                            TextColors.BLUE, v.getName(),
-                            TextColors.WHITE, " finished ",
-                            Text.builder("/minesweeper")
-                                    .style(TextStyles.UNDERLINE)
-                                    .onHover(TextActions.showText(Text.of(TextColors.GOLD,"Click to play")))
-                                    .onClick(TextActions.suggestCommand("/minesweeper "+field.mines))
-                                    .build(),
-                            " with ",
-                            TextColors.RED, field.mines,
-                            TextColors.WHITE, " mines in ",
-                            TextColors.GOLD, field.passedSec/60, ":", field.passedSec%60, "s",
-                            TextColors.WHITE,"!"
-                    ));
+                    if (Minesweeper.getConfiguration().shouldBroadcastVictory()) {
+                        //tell the server how good player is with probably 4 mines
+                        Sponge.getServer().getBroadcastChannel().send(Text.of(
+                                TextColors.BLUE, v.getName(),
+                                TextColors.WHITE, " finished ",
+                                Text.builder("/minesweeper")
+                                        .style(TextStyles.UNDERLINE)
+                                        .onHover(TextActions.showText(Text.of(TextColors.GOLD, "Click to play")))
+                                        .onClick(TextActions.suggestCommand("/minesweeper " + field.mines))
+                                        .build(),
+                                " with ",
+                                TextColors.RED, field.mines,
+                                TextColors.WHITE, " mines in ",
+                                TextColors.GOLD, field.passedSec / 60, ":", field.passedSec % 60, "s",
+                                TextColors.WHITE, "!"
+                        ));
+                    }
                     field.emitGameEnd(v, true);
                 }
                 //notify button/menu/renderer that elements were changed and menu has to redraw

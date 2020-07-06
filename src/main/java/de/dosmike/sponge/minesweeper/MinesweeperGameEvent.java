@@ -20,7 +20,7 @@ public abstract class MinesweeperGameEvent implements TargetPlayerEvent, Event {
 
     @Override
     public Player getTargetEntity() {
-        return null;
+        return player;
     }
 
     /** @return the amount of mines that were placed in this game */

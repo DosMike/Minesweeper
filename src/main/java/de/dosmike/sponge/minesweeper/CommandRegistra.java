@@ -1,6 +1,5 @@
 package de.dosmike.sponge.minesweeper;
 
-import de.dosmike.sponge.megamenus.MegaMenus;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
